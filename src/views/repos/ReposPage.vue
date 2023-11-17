@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, watch } from 'vue'
+import { computed, ref, watch } from 'vue'
 import { useRoute } from 'vue-router'
 import SvgBlocksIcon from '@/assets/SvgBlocksIcon.vue'
 import SvgNotFound from '@/assets/SvgNotFound.vue'
@@ -41,6 +41,19 @@ function updateFoundRepos(delay: number) {
   }, delay)
 }
 
+// COMPUTED
+const showSvgBlocksIcon = computed(() => {
+  return (!repos.value && !isPending.value) || (!nameRepo.value && !isNotFound.value)
+})
+
+const showSvgNotFound = computed(() => {
+  return isNotFound.value && !isPending.value
+})
+
+const showRepoCardBox = computed(() => {
+  return repos.value && nameRepo.value && !isPending.value && !isNotFound.value
+})
+
 // WATCHERS
 watch(nameRepo, () => {
   if (nameRepo.value.trim().length > 0 && nameRepo.value)
@@ -64,17 +77,17 @@ watch(perPage, () => {
       </p>
       <CInput v-model="nameRepo" @click="updateFoundRepos(0)" @keydown.enter="updateFoundRepos(0)" />
     </div>
-    <div v-if="(!repos && !isPending) || !nameRepo && !isNotFound" class="flex flex-col grow justify-center items-center">
+    <div v-if="showSvgBlocksIcon" class="flex flex-col grow justify-center items-center">
       <SvgBlocksIcon />
     </div>
     <div v-if="isPending" class="flex flex-col grow justify-center items-center">
       <img src="@/assets/BlocksAnimation.gif" alt="Loading">
     </div>
-    <p v-if="isNotFound && !isPending" class="flex flex-col grow justify-center items-center">
+    <p v-if="showSvgNotFound" class="flex flex-col grow justify-center items-center">
       <SvgNotFound />
     </p>
 
-    <div v-if="repos && nameRepo && !isPending && !isNotFound" class="flex flex-col justify-between grow gap-10">
+    <div v-if="showRepoCardBox" class="flex flex-col justify-between grow gap-10">
       <div class="">
         <RepoCardBox v-model="repos" />
       </div>
