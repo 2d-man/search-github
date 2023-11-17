@@ -13,7 +13,7 @@ import type { IRepo } from '@/types/repo.ts'
 const route = useRoute()
 const repos = ref<Array<IRepo>>()
 const nameRepo = ref<string | undefined>('')
-const countPages = ref<number>()
+const countPages = ref<number>(1)
 const perPage = ref<number>(5)
 const currentPage = ref<number>(1)
 let timeout: ReturnType<typeof setTimeout>
@@ -34,11 +34,9 @@ watch(nameRepo, () => {
   updateFoundRepos(2000)
 })
 watch(currentPage, () => {
-  console.warn('выбрана страница:', currentPage.value)
   updateFoundRepos(0)
 })
 watch(perPage, () => {
-  console.warn('выбрана количество элементов на странице:', perPage.value)
   updateFoundRepos(0)
 })
 </script>
@@ -46,7 +44,7 @@ watch(perPage, () => {
 <template>
   <div class="flex flex-col gap-10">
     <div class="flex justify-around flex-wrap">
-      <p class="flex justify-center text-3xl font-bold text-blue-600">
+      <p class="flex justify-center text-3xl font-bold text-blue-600 pr-5">
         {{ route.meta?.title || 'Приложение' }}
       </p>
       <CInput v-model="nameRepo" @keydown="updateFoundRepos(0)" />
