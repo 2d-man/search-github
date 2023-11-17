@@ -2,7 +2,7 @@
 import { ref, watch } from 'vue'
 
 export interface Props {
-  modelValue: number | undefined
+  modelValue: number
   countPages: number
 }
 
@@ -14,7 +14,7 @@ const emit = defineEmits<{
 
 // VARIABLES
 const pageLast = ref<number>(prop.countPages)
-const selectedPage = ref<number>(1)
+const selectedPage = ref<number>(prop.modelValue)
 const pageSegment = ref<Array<number>>([...Array(6).keys()].map(i => i + 2))
 
 // METHODS
@@ -37,7 +37,14 @@ function fillPageSegment() {
     pageSegment.value = [...Array(6).keys()].map(i => i + selectedPage.value - 4)
   if (selectedPage.value <= 5)
     pageSegment.value = [...Array(6).keys()].map(i => i + 2)
+  if (selectedPage.value === pageLast.value)
+    pageSegment.value = [...Array(6).keys()].map(i => i + selectedPage.value - 6)
+  if (pageLast.value <= 5)
+    pageSegment.value = [...Array(pageLast.value).keys()].map(i => i + 2)
+  if (pageLast.value === 1)
+    pageSegment.value = [...Array(pageLast.value).keys()].map(i => i + 1)
 }
+fillPageSegment()
 
 // WATCHERS
 watch(selectedPage, () => {
@@ -48,8 +55,9 @@ watch(selectedPage, () => {
 <template>
   <div class="flex flex-row gap-3 text-white">
     <button
+      v-if="pageLast !== 1"
       class="hover:underline"
-      :class="checkSelectedPage(1) ? 'text-blue-600 underline' : 'text-white'"
+      :class="checkSelectedPage(1) ? 'text-blue-400 underline' : 'text-white'"
       @click="selectPage(1)"
     >
       1
@@ -60,7 +68,7 @@ watch(selectedPage, () => {
     <button
       v-for="pageNumber in pageSegment"
       :key="pageNumber" class="hover:underline"
-      :class="checkSelectedPage(pageNumber) ? 'text-blue-600 underline' : 'text-white'"
+      :class="checkSelectedPage(pageNumber) ? 'text-blue-400 underline' : 'text-white'"
       @click="selectPage(pageNumber)"
     >
       {{ pageNumber }}
@@ -71,7 +79,7 @@ watch(selectedPage, () => {
     <button
       v-if="!(countPages <= 5)"
       class="hover:underline"
-      :class="checkSelectedPage(pageLast) ? 'text-blue-600 underline' : 'text-white'"
+      :class="checkSelectedPage(pageLast) ? 'text-blue-400 underline' : 'text-white'"
       @click="selectPage(pageLast)"
     >
       {{ countPages }}

@@ -10,12 +10,7 @@ const emit = defineEmits<{
 }>()
 
 // VARIABLES
-const selectedPerPage = ref<number>(5)
-
-// METHODS
-function selectPerPage(pageNumber: number) {
-  selectedPerPage.value = pageNumber
-}
+const selectedPerPage = ref<number>(prop.modelValue)
 
 // WATCHERS
 watch(selectedPerPage, () => {
@@ -25,7 +20,7 @@ watch(selectedPerPage, () => {
 
 <template>
   <select v-model="selectedPerPage" class="rounded-2xl w-16">
-    <option :value="5" selected>
+    <option :value="5">
       5
     </option>
     <option :value="10">
