@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ref, watch } from 'vue'
+import { smallScreen } from '@/data/checkScreenSize.ts'
 import SvgSearch from '@/assets/SvgSearch.vue'
 
 export interface Props {
@@ -25,7 +26,10 @@ watch(text, () => {
 </script>
 
 <template>
-  <div class="flex justify-between w-1/2 h-12 rounded-2xl bg-gray-200 relative">
+  <div
+    class="flex justify-between h-12 rounded-2xl bg-gray-200 relative"
+    :class="smallScreen ? 'w-full' : 'w-1/2'"
+  >
     <input
       v-model="text"
       :placeholder="label"

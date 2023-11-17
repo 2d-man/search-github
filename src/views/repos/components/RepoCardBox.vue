@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import RepoCard from '@/components/RepoCard.vue'
+import RepoCard from '@/views/repos/components/RepoCard.vue'
 import type { IRepo } from '@/types/repo.ts'
 
 export interface Props {

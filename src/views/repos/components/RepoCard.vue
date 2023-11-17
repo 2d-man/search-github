@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { computed, ref, watch } from 'vue'
+import { computed, ref } from 'vue'
+import { smallScreen } from '@/data/checkScreenSize.ts'
 import type { IOwner } from '@/types/owner.ts'
 
 export interface Props {
@@ -43,16 +44,17 @@ const shortDescription = computed(() => {
   else
     return prop.description
 })
-
-// WATCHERS
-watch(shortDescription, () => {
-
-})
 </script>
 
 <template>
-  <div class="flex justify-between p-5 py-1 rounded bg-gray-100">
-    <div class="flex flex-col w-1/3">
+  <div
+    class="flex rounded bg-gray-100"
+    :class="smallScreen ? 'flex-col p-1' : 'flex-row p-5 py-1'"
+  >
+    <div
+      class="flex flex-col"
+      :class="smallScreen ? 'w-full flex-wrap' : 'w-1/3'"
+    >
       <p>
         Название:
         <a :href="linkRepo" class="text-blue-400 font-bold hover:underline">
@@ -69,7 +71,10 @@ watch(shortDescription, () => {
         Популярность: {{ stargazersCount }}&#11088;
       </p>
     </div>
-    <div class="flex flex-col w-2/3 pl-10">
+    <div
+      class="flex flex-col "
+      :class="smallScreen ? 'w-full' : 'pl-10 w-2/3'"
+    >
       <p>
         Язык: {{ languageRepo }}
       </p>

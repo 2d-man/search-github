@@ -1,11 +1,12 @@
 <script setup lang="ts">
 import { computed, ref, watch } from 'vue'
 import { useRoute } from 'vue-router'
+import { smallScreen } from '@/data/checkScreenSize.ts'
 import SvgBlocksIcon from '@/assets/SvgBlocksIcon.vue'
 import SvgNotFound from '@/assets/SvgNotFound.vue'
 import PerPageBox from '@/components/PerPageBox.vue'
 import PagesBox from '@/components/PagesBox.vue'
-import RepoCardBox from '@/components/RepoCardBox.vue'
+import RepoCardBox from '@/views/repos/components/RepoCardBox.vue'
 import CInput from '@/components/CInput.vue'
 import { getRepos } from '@/api/repos'
 import type { IRepo } from '@/types/repo.ts'
@@ -71,8 +72,14 @@ watch(perPage, () => {
 
 <template>
   <div class="flex flex-col grow h-full gap-10">
-    <div class="flex justify-around flex-wrap ">
-      <p class="flex justify-center text-3xl font-bold text-blue-400 pr-5 pb-4">
+    <div
+      class="flex justify-around"
+      :class="smallScreen ? 'flex-col' : 'flex-row'"
+    >
+      <p
+        class="flex justify-center font-bold text-blue-400 pb-4"
+        :class="smallScreen ? 'text-2xl text-center' : 'text-3xl'"
+      >
         {{ route.meta?.title || 'Приложение' }}
       </p>
       <CInput v-model="nameRepo" @click="updateFoundRepos(0)" @keydown.enter="updateFoundRepos(0)" />
@@ -91,7 +98,10 @@ watch(perPage, () => {
       <div class="">
         <RepoCardBox v-model="repos" />
       </div>
-      <div class="flex flex-row justify-between">
+      <div
+        class="flex"
+        :class="smallScreen ? 'flex-col-reverse items-center gap-6' : 'flex-row justify-between'"
+      >
         <PagesBox v-model="currentPage" :count-pages="countPages" />
         <PerPageBox v-model="perPage" />
       </div>
