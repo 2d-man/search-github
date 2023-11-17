@@ -19,7 +19,7 @@ watch(selectedPerPage, () => {
 </script>
 
 <template>
-  <select v-model="selectedPerPage" class="rounded-2xl w-40">
+  <select v-model="selectedPerPage" class="rounded-2xl w-40 hover:cursor-pointer">
     <option :value="5">
       Показывать по 5
     </option>
