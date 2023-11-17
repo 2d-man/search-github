@@ -19,18 +19,18 @@ watch(selectedPerPage, () => {
 </script>
 
 <template>
-  <select v-model="selectedPerPage" class="rounded-2xl w-16">
+  <select v-model="selectedPerPage" class="rounded-2xl w-40">
     <option :value="5">
-      5
+      Показывать по 5
     </option>
     <option :value="10">
-      10
+      Показывать по 10
     </option>
     <option :value="20">
-      20
+      Показывать по 20
     </option>
     <option :value="30">
-      30
+      Показывать по 30
     </option>
   </select>
 </template>
